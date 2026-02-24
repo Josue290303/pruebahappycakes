@@ -3,430 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Cakes</title>
+<title>Happy Cakes • Tortas Artesanales</title>
 <link rel="icon" href="imagenes/logohappycake.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-body {
-  background: #FDF8F6;
-  color: #2d2d2d;
-  line-height: 1.5;
-}
-
-/* INICIO */
-.inicio {
-  position: fixed;
-  inset: 0;
-  background: #C40000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 28px;
-  color: white;
-  text-align: center;
-  z-index: 999;
-}
-.logo-inicio {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: white;
-  padding: 12px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-.btn-entrar {
-  background: white;
-  color: #C40000;
-  border: none;
-  padding: 16px 40px;
-  border-radius: 50px;
-  font-size: 1.25em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-.btn-entrar:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-}
-
-/* CONTENIDO */
-#contenido {
-  display: none;
-  padding: 24px 16px;
-  max-width: 1200px;
-  margin: auto;
-}
-h2 {
-  color: #C40000;
-  font-weight: 600;
-  margin: 40px 0 24px;
-  text-align: center;
-  font-size: 2em;
-}
-
-/* CAMPAÑAS */
-.campanas {
-  text-align: center;
-  padding: 40px 0;
-}
-.botones-campana {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-.btn-rojo {
-  background: #C40000;
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.btn-rojo:hover {
-  background: #a50000;
-  transform: translateY(-2px);
-}
-
-/* MODAL - solo vista previa (opcional) */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 20px;
-}
-.modal-content {
-  background: white;
-  max-width: 90%;
-  max-height: 90vh;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-}
-.modal-content img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.cerrar {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: white;
-  color: #C40000;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-size: 32px;
-  line-height: 44px;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transition: all 0.2s;
-}
-.cerrar:hover {
-  background: #ffeeee;
-  transform: scale(1.1);
-}
-
-/* GRID TORTAS */
-#lista {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-}
-@media (min-width: 768px)  { #lista { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1100px) { #lista { grid-template-columns: repeat(3, 1fr); } }
-
-.torta {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-.torta:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
-}
-.torta-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  background: #FFF5F5;
-  border-bottom: 1px solid #ffebeb;
-}
-.torta-info {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-.torta img {
-  width: 100px;
-  height: 100px;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.torta h3 {
-  font-size: 1.4em;
-  margin-bottom: 6px;
-  color: #C40000;
-}
-.torta p {
-  color: #555;
-  font-size: 0.95em;
-}
-
-/* BOTÓN TOGGLE */
-.btn-toggle {
-  background: #C40000;
-  color: white;
-  border: none;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  font-size: 32px;
-  line-height: 1;
-  cursor: pointer;
-  transition: all 0.25s;
-  box-shadow: 0 4px 12px rgba(196,0,0,0.25);
-}
-.btn-toggle:hover {
-  background: #a50000;
-  transform: scale(1.1);
-}
-
-/* OPCIONES */
-.opciones {
-  display: none;
-  padding: 24px;
-  background: #fafafa;
-}
-.grupo {
-  margin: 28px 0;
-}
-.grupo p {
-  font-weight: 600;
-  color: #C40000;
-  margin-bottom: 14px;
-  font-size: 1.15em;
-}
-.botones-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-start;
-}
-.opcion-btn {
-  background: white;
-  border: 2px solid #ffcccc;
-  color: #C40000;
-  padding: 10px 20px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.95em;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  min-width: 110px;
-  text-align: center;
-}
-.opcion-btn:hover {
-  border-color: #ff9999;
-  background: #fff5f5;
-  transform: translateY(-1px);
-}
-.opcion-btn.activo {
-  background: #C40000;
-  color: white;
-  border-color: #C40000;
-}
-
-/* TAJADAS */
-.tajadas {
-  display: none;
-  margin-top: 16px;
-  padding: 16px;
-  background: #fffafafa;
-  border-radius: 16px;
-  border: 1px solid #ffebeb;
-}
-.tajadas .botones-container {
-  gap: 10px;
-}
-.tajadas .opcion-btn {
-  min-width: 60px;
-  padding: 10px 14px;
-  font-size: 0.95em;
-}
-
-/* Botón AGREGAR */
-.btn-agregar {
-  background: #C40000;
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.05em;
-  cursor: pointer;
-  margin-top: 28px;
-  width: 100%;
-  transition: all 0.3s;
-}
-.btn-agregar:hover {
-  background: #a50000;
-  transform: translateY(-2px);
-}
-
-/* PANEL FINAL */
-.panel-final {
-  display: none;
-  background: white;
-  padding: 32px;
-  border-radius: 20px;
-  margin: 40px auto;
-  max-width: 700px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-@media (min-width: 600px) {
-  .form-grid { grid-template-columns: 1fr 1fr; }
-}
-.form-grid input {
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 1em;
-}
-.btn-enviar {
-  grid-column: 1 / -1;
-  background: #C40000;
-  color: white;
-  border: none;
-  padding: 16px;
-  border-radius: 50px;
-  font-size: 1.1em;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 12px;
-}
-.finalizar-container {
-  text-align: center;
-  margin: 48px 0;
-}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+  body { font-family: 'Inter', system-ui, sans-serif; background: #fffaf5; }
+  .heading { font-family: 'Playfair Display', serif; }
+  .opciones { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
+  .opciones.open { max-height: 1600px; }
+  
+  .opcion-btn {
+    transition: all 0.25s;
+    border: 2px solid #fecaca;
+    color: #c40000;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 9999px;
+    min-width: 95px;
+  }
+  .opcion-btn.activo {
+    background: #c40000;
+    color: white;
+    border-color: #c40000;
+  }
+  
+  .tajada-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid #fecaca;
+    color: #c40000;
+  }
+  .tajada-btn.activo {
+    background: #c40000;
+    color: white;
+    border-color: #c40000;
+  }
+  
+  .tajadas { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.4s ease; 
+    margin-top: 20px;
+  }
+  .tajadas.open { max-height: 320px; }
 </style>
 </head>
 <body>
 
-<div class="inicio" id="inicio">
-  <img src="imagenes/logohappycake.png" class="logo-inicio">
-  <h1>Happy Cakes</h1>
-  <button class="btn-entrar" onclick="entrar()">Clic para Ingresar</button>
+<!-- HERO -->
+<div id="inicio" class="min-h-screen bg-gradient-to-br from-rose-600 to-rose-700 flex items-center justify-center">
+  <div class="text-center">
+    <img src="imagenes/logohappycake.png" class="w-40 h-40 mx-auto mb-8 rounded-full border-8 border-white shadow-2xl">
+    <h1 class="heading text-7xl text-white font-bold tracking-tighter">Happy Cakes</h1>
+    <p class="text-white/90 text-2xl mt-4">Tortas con amor desde Tarapoto</p>
+    <button onclick="entrar()" class="mt-12 bg-white text-rose-600 px-16 py-6 rounded-3xl text-2xl font-bold hover:scale-105 transition">
+      Ingresar al Catálogo
+    </button>
+  </div>
 </div>
 
-<div id="contenido">
-  <section class="campanas">
-    <h2>Campañas Especiales</h2>
-    <div class="botones-campana">
-      <button class="btn-rojo" onclick="abrirCatalogo('sanvalentin')">Ver Catálogo San Valentín</button>
-      <button class="btn-rojo" onclick="abrirCatalogo('bocaditos')">Ver Catálogo de Bocaditos</button>
+<div id="contenido" class="hidden pt-12 pb-32">
+
+  <!-- CATÁLOGOS ARRIBA -->
+  <div class="max-w-6xl mx-auto px-6 mb-16">
+    <div class="grid md:grid-cols-2 gap-6">
+      <button onclick="abrirCatalogo('sanvalentin')" class="bg-gradient-to-br from-pink-100 to-rose-100 hover:from-pink-200 hover:to-rose-200 rounded-3xl p-10 text-left transition-all">
+        <p class="text-rose-600 font-medium">San Valentín 2026</p>
+        <h3 class="heading text-4xl font-bold mt-2">Catálogo Especial</h3>
+      </button>
+      <button onclick="abrirCatalogo('bocaditos')" class="bg-gradient-to-br from-amber-100 to-orange-100 hover:from-amber-200 hover:to-orange-200 rounded-3xl p-10 text-left transition-all">
+        <p class="text-orange-600 font-medium">Para compartir</p>
+        <h3 class="heading text-4xl font-bold mt-2">Bocaditos Premium</h3>
+      </button>
     </div>
-  </section>
-
-  <h2>Nuestras Tortas</h2>
-  <div id="lista"></div>
-
-  <div class="finalizar-container">
-    <button class="btn-rojo" onclick="mostrarPanelFinal()">Finalizar Pedido</button>
   </div>
 
-  <div class="panel-final" id="panelFinal">
-    <h3>Finalizar Pedido</h3>
-    <div class="form-grid">
-      <input type="date" id="fecha">
-      <input type="time" id="hora">
-      <input type="text" id="cliente" placeholder="Nombre del cliente">
-      <input type="text" id="mensaje" placeholder="Dedicatoria (opcional)">
+  <!-- TORTAS -->
+  <div class="max-w-6xl mx-auto px-6">
+    <div id="lista" class="grid md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-20 bg-gray-900 text-white py-12">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <p class="text-2xl heading">Happy Cakes</p>
+      <p class="text-gray-400 mt-2">Entregas a domicilio en Tarapoto • Pedidos por WhatsApp</p>
+      <div class="flex justify-center gap-8 my-8">
+        <a href="#" class="text-3xl hover:text-rose-400"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="text-3xl hover:text-rose-400"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://wa.me/51958049586" class="text-3xl hover:text-rose-400"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+      <p class="text-sm text-gray-500">© 2026 Happy Cakes · Desarrollo y diseño por Josué Lopez · @blazemodejj</p>
     </div>
-    <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
+  </footer>
+
+  <!-- Botón fijo abajo -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-50 py-5 px-6">
+    <button onclick="mostrarCarrito()" 
+            class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xl py-6 rounded-3xl flex items-center justify-center gap-3 transition">
+      <i class="fa-solid fa-bag-shopping"></i>
+      Enviar Pedido por WhatsApp (<span id="bottom-count" class="font-bold">0</span>)
+    </button>
   </div>
 </div>
 
-<!-- MODALES - solo vista previa (opcional) -->
-<div class="modal" id="modalSanValentin">
-  <div class="modal-content">
-    <span class="cerrar" onclick="cerrarModal('modalSanValentin')">×</span>
-    <img src="imagenes/catalogo-san-valentin.jpg" alt="Catálogo San Valentín">
-  </div>
-</div>
-
-<div class="modal" id="modalBocaditos">
-  <div class="modal-content">
-    <span class="cerrar" onclick="cerrarModal('modalBocaditos')">×</span>
-    <img src="imagenes/catalogo-bocaditos.jpg" alt="Catálogo Bocaditos">
+<!-- Panel de pedido -->
+<div id="cart-panel" class="fixed inset-0 bg-black/70 hidden flex items-center justify-center z-[100]">
+  <div class="bg-white rounded-3xl w-full max-w-lg mx-4 max-h-[90vh] overflow-hidden">
+    <div class="p-6 border-b flex justify-between items-center">
+      <h2 class="heading text-3xl font-bold text-rose-600">Tu Pedido</h2>
+      <button onclick="cerrarCarrito()" class="text-4xl text-gray-400 hover:text-gray-600">×</button>
+    </div>
+    <div id="cart-items" class="p-6 max-h-[55vh] overflow-y-auto space-y-6"></div>
+    <div class="p-6 border-t bg-gray-50">
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <input type="date" id="fecha" class="border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+        <input type="time" id="hora" class="border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+      </div>
+      <input type="text" id="cliente" placeholder="Nombre del cliente" class="w-full border border-gray-300 rounded-2xl px-5 py-4 mb-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+      <input type="text" id="mensaje" placeholder="Dedicatoria / Mensaje en la torta" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+    </div>
+    <div class="p-6">
+      <button onclick="enviarPedido()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-6 rounded-3xl font-bold text-xl transition">
+        Enviar Pedido por WhatsApp
+      </button>
+    </div>
   </div>
 </div>
 
 <script>
-// Funciones básicas
+// ==================== INICIO ====================
 function entrar() {
-  document.getElementById("inicio").style.display = "none";
-  document.getElementById("contenido").style.display = "block";
+  document.getElementById("inicio").classList.add("hidden");
+  document.getElementById("contenido").classList.remove("hidden");
 }
 
-function cerrarModal(id) {
-  document.getElementById(id).style.display = "none";
-}
-
-// Abrir PDF directamente (cambia las rutas por las tuyas reales)
 function abrirCatalogo(tipo) {
-  let pdfUrl = "";
-  let modalId = "";
-
-  if (tipo === "sanvalentin") {
-    pdfUrl = "pdf/Catálogo de bocaditos_20260224_123456_0000.pdf";   // ← CAMBIA ESTA RUTA
-    modalId = "modalSanValentin";
-  } else if (tipo === "bocaditos") {
-    pdfUrl = "pdf/Documento A4 Catálogo de San Valentín Moderno Rosa_20260206_192547_0000.pdf";      // ← CAMBIA ESTA RUTA
-    modalId = "modalBocaditos";
-  }
-
-  // Opción 1: Abrir PDF directamente (recomendado según tu pedido)
-  window.open(pdfUrl, "_blank");
-
-  // Opción 2: Mostrar vista previa primero (comenta la línea de arriba si no la quieres)
-  // document.getElementById(modalId).style.display = "flex";
+  let pdf = tipo === "sanvalentin" 
+    ? "pdf/Documento A4 Catálogo de San Valentín Moderno Rosa_20260206_192547_0000.pdf"
+    : "pdf/Catálogo de bocaditos_20260224_123456_0000.pdf";
+  window.open(pdf, "_blank");
 }
 
-// Resto del script (tortas, carrito, etc.)
+// ==================== TORTAS ====================
 const tortas = [
-  {nombre:"Torta Chocolate",     precioCompleta:60, precioTajada:8,  img:"imagenes/chocolate.jpg"},
-  {nombre:"Torta Tres Leches",   precioCompleta:55, precioTajada:7,  img:"imagenes/tresleches.jpg"},
-  {nombre:"Torta Red Velvet",    precioCompleta:65, precioTajada:9,  img:"imagenes/redvelvet.jpg"},
-  {nombre:"Torta Oreo",          precioCompleta:70, precioTajada:10, img:"imagenes/oreo.jpg"},
-  {nombre:"Torta Fresa",         precioCompleta:58, precioTajada:8,  img:"imagenes/fresa.jpg"}
+  {nombre:"Torta Chocolate", precioCompleta:60, precioTajada:8, img:"imagenes/chocolate.jpg"},
+  {nombre:"Torta Tres Leches", precioCompleta:55, precioTajada:7, img:"imagenes/tresleches.jpg"},
+  {nombre:"Torta Red Velvet", precioCompleta:65, precioTajada:9, img:"imagenes/redvelvet.jpg"},
+  {nombre:"Torta Oreo", precioCompleta:70, precioTajada:10, img:"imagenes/oreo.jpg"},
+  {nombre:"Torta Fresa", precioCompleta:58, precioTajada:8, img:"imagenes/fresa.jpg"}
 ];
 
 const lista = document.getElementById("lista");
@@ -434,172 +165,219 @@ let carrito = [];
 
 tortas.forEach(t => {
   lista.innerHTML += `
-<div class="torta">
-  <div class="torta-header">
-    <div class="torta-info">
-      <img src="${t.img}" alt="${t.nombre}">
-      <div>
-        <h3>${t.nombre}</h3>
-        <p>Torta completa: S/ ${t.precioCompleta}</p>
-        <p>Por tajada: S/ ${t.precioTajada}</p>
-      </div>
-    </div>
-    <button class="btn-toggle" onclick="toggle(this)">+</button>
-  </div>
-  <div class="opciones">
-    <div class="grupo">
-      <p>Presentación</p>
-      <div class="botones-container">
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Torta Completa</button>
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Por Tajadas</button>
-      </div>
-      <div class="tajadas" style="display:none;">
-        <div class="botones-container">
-          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">1</button>
-          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">2</button>
-          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">3</button>
-          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">4</button>
-          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">5</button>
-          <button class="opcion-btn" onclick="masTajadas(event,this)">Más tajadas</button>
+  <div class="bg-white rounded-3xl overflow-hidden shadow-xl torta-card">
+    <img src="${t.img}" class="w-full h-64 object-cover">
+    <div class="p-8">
+      <h3 class="heading text-4xl font-bold text-gray-800">${t.nombre}</h3>
+      <p class="text-gray-600 mt-1">Completa S/${t.precioCompleta} • Tajada S/${t.precioTajada}</p>
+      
+      <button onclick="toggle(this)" class="mt-8 w-full bg-rose-50 hover:bg-rose-100 text-rose-700 py-6 rounded-3xl font-bold text-xl flex items-center justify-center gap-3">
+        <span class="text-4xl leading-none">+</span> Personalizar
+      </button>
+      
+      <div class="opciones mt-6 bg-gray-50 rounded-3xl p-8">
+        <!-- Presentación -->
+        <div class="mb-10">
+          <p class="text-rose-600 font-bold mb-4 text-lg">Presentación</p>
+          <div class="grid grid-cols-2 gap-4">
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Torta Completa</button>
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Por Tajadas</button>
+          </div>
+          
+          <!-- Tajadas solo aparece cuando eliges "Por Tajadas" -->
+          <div class="tajadas mt-6">
+            <div class="grid grid-cols-5 gap-4">
+              <button onclick="seleccionarTajada(event,this)" class="tajada-btn">1</button>
+              <button onclick="seleccionarTajada(event,this)" class="tajada-btn">2</button>
+              <button onclick="seleccionarTajada(event,this)" class="tajada-btn">3</button>
+              <button onclick="seleccionarTajada(event,this)" class="tajada-btn">4</button>
+              <button onclick="seleccionarTajada(event,this)" class="tajada-btn">5</button>
+            </div>
+            
+            <!-- Input "Más tajadas" -->
+            <div class="mt-6 flex items-center gap-3">
+              <input type="number" min="6" placeholder="Cantidad" 
+                     class="w-28 border border-rose-200 rounded-3xl px-5 py-3 text-center focus:outline-none focus:border-rose-500">
+              <button onclick="agregarTajadaPersonalizada('${t.nombre}', this)" 
+                      class="opcion-btn px-8 py-3 text-sm font-medium">Agregar</button>
+            </div>
+          </div>
         </div>
+
+        <!-- Relleno -->
+        <div class="mb-10">
+          <p class="text-rose-600 font-bold mb-4 text-lg">Relleno</p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Fresa</button>
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Manjar</button>
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Chocolate</button>
+          </div>
+        </div>
+
+        <!-- Cobertura -->
+        <div class="mb-10">
+          <p class="text-rose-600 font-bold mb-4 text-lg">Cobertura</p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Chantilly</button>
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Fondant</button>
+            <button onclick="seleccionar(event,this)" class="opcion-btn">Ganache</button>
+          </div>
+        </div>
+
+        <!-- Toppings -->
+        <div>
+          <p class="text-rose-600 font-bold mb-4 text-lg">Toppings</p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="toggleTopping(event,this)" class="opcion-btn">Fresas</button>
+            <button onclick="toggleTopping(event,this)" class="opcion-btn">Oreo</button>
+            <button onclick="toggleTopping(event,this)" class="opcion-btn">Chispas</button>
+            <button onclick="toggleTopping(event,this)" class="opcion-btn">Nueces</button>
+          </div>
+        </div>
+
+        <button onclick="agregarAlCarrito('${t.nombre}', this)" class="mt-12 w-full bg-rose-600 hover:bg-rose-700 text-white py-6 rounded-3xl font-bold text-xl">
+          Agregar al Pedido
+        </button>
       </div>
     </div>
-    <!-- Relleno, Cobertura y Toppings se mantienen igual -->
-    <div class="grupo">
-      <p>Relleno</p>
-      <div class="botones-container">
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Fresa</button>
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Manjar</button>
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Chocolate</button>
-      </div>
-    </div>
-    <div class="grupo">
-      <p>Cobertura</p>
-      <div class="botones-container">
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Chantilly</button>
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Fondant</button>
-        <button class="opcion-btn" onclick="seleccionar(event,this)">Ganache</button>
-      </div>
-    </div>
-    <div class="grupo">
-      <p>Toppings</p>
-      <div class="botones-container">
-        <button class="opcion-btn" onclick="toggleTopping(event,this)">Fresas</button>
-        <button class="opcion-btn" onclick="toggleTopping(event,this)">Oreo</button>
-        <button class="opcion-btn" onclick="toggleTopping(event,this)">Chispas</button>
-        <button class="opcion-btn" onclick="toggleTopping(event,this)">Nueces</button>
-      </div>
-    </div>
-    <button class="btn-agregar" onclick="agregarAlCarrito('${t.nombre}', this)">Agregar al Pedido</button>
-  </div>
-</div>`;
+  </div>`;
 });
 
+// ==================== FUNCIONES ====================
 function toggle(btn) {
-  const opciones = btn.closest(".torta").querySelector(".opciones");
-  const visible = opciones.style.display === "block";
-  opciones.style.display = visible ? "none" : "block";
-  btn.textContent = visible ? "+" : "−";
+  const card = btn.closest('.torta-card');
+  const opciones = card.querySelector('.opciones');
+  document.querySelectorAll('.opciones').forEach(o => o.classList.remove('open'));
+  if (!opciones.classList.contains('open')) opciones.classList.add('open');
 }
 
 function seleccionar(e, btn) {
   e.stopPropagation();
-  const grupo = btn.closest(".grupo");
-  grupo.querySelectorAll(".opcion-btn").forEach(b => {
-    if (!b.closest(".tajadas")) b.classList.remove("activo");
-  });
-  btn.classList.add("activo");
+  const grupo = btn.parentElement.parentElement;
+  grupo.querySelectorAll('.opcion-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
 
-  const tajadas = grupo.querySelector(".tajadas");
-  if (tajadas) {
-    tajadas.style.display = btn.textContent.includes("Por Tajadas") ? "block" : "none";
-    if (tajadas.style.display !== "block") {
-      tajadas.querySelectorAll(".opcion-btn").forEach(b => b.classList.remove("activo"));
-    }
-  }
+  const tajadas = grupo.querySelector('.tajadas');
+  if (tajadas) tajadas.classList.toggle('open', btn.textContent.includes('Por Tajadas'));
 }
 
 function seleccionarTajada(e, btn) {
   e.stopPropagation();
-  const container = btn.closest(".botones-container");
-  container.querySelectorAll(".opcion-btn").forEach(b => b.classList.remove("activo"));
-  btn.classList.add("activo");
+  const grupo = btn.parentElement;
+  grupo.querySelectorAll('.tajada-btn').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
 }
 
-function masTajadas(e, btn) {
-  e.stopPropagation();
-  alert("Para más de 5 tajadas, por favor escribe la cantidad deseada en la dedicatoria o contáctanos directamente.");
+function agregarTajadaPersonalizada(nombre, btn) {
+  const input = btn.parentElement.querySelector('input');
+  const cantidad = input.value.trim();
+  if (!cantidad || parseInt(cantidad) < 6) {
+    alert("Ingresa una cantidad mayor a 5");
+    return;
+  }
+  alert(`Se agregaron ${cantidad} tajadas de ${nombre}`);
+  input.value = '';
 }
 
 function toggleTopping(e, btn) {
   e.stopPropagation();
-  btn.classList.toggle("activo");
+  btn.classList.toggle('activo');
 }
 
 function agregarAlCarrito(nombre, btn) {
-  const tortaDiv = btn.closest(".torta");
-  let presentacion = "", cantidad = "", relleno = "", cobertura = "", toppings = [];
+  const card = btn.closest('.torta-card');
+  let item = { nombre, presentacion:"", cantidad:"", relleno:"", cobertura:"", toppings:[] };
 
-  const grupos = tortaDiv.querySelectorAll(".grupo");
-  const pres = grupos[0].querySelector(".opcion-btn.activo");
-  if (pres) presentacion = pres.innerText;
+  const grupos = card.querySelectorAll('.opciones > div');
+  const pres = grupos[0].querySelector('.opcion-btn.activo');
+  if (pres) item.presentacion = pres.textContent;
 
-  const tajadaBtn = grupos[0].querySelector(".tajadas .opcion-btn.activo");
-  if (tajadaBtn) cantidad = tajadaBtn.innerText;
+  const taj = grupos[0].querySelector('.tajadas .tajada-btn.activo');
+  if (taj) item.cantidad = taj.textContent;
 
-  const rel = grupos[1].querySelector(".opcion-btn.activo");
-  if (rel) relleno = rel.innerText;
+  const rel = grupos[1].querySelector('.opcion-btn.activo');
+  if (rel) item.relleno = rel.textContent;
 
-  const cob = grupos[2].querySelector(".opcion-btn.activo");
-  if (cob) cobertura = cob.innerText;
+  const cob = grupos[2].querySelector('.opcion-btn.activo');
+  if (cob) item.cobertura = cob.textContent;
 
-  grupos[3].querySelectorAll(".opcion-btn.activo").forEach(t => {
-    toppings.push(t.innerText);
-  });
+  grupos[3].querySelectorAll('.opcion-btn.activo').forEach(t => item.toppings.push(t.textContent));
 
-  carrito.push({ nombre, presentacion, cantidad, relleno, cobertura, toppings });
-  alert(nombre + " agregada al pedido");
+  carrito.push(item);
+  card.querySelector('.opciones').classList.remove('open');
+  actualizarContador();
+  showToast(`${nombre} agregada al pedido`);
 }
 
-function mostrarPanelFinal() {
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'fixed top-6 right-6 bg-rose-600 text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3 z-[200]';
+  t.innerHTML = `<i class="fa-solid fa-check-circle text-2xl"></i><span class="font-medium">${msg}</span>`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function actualizarContador() {
+  document.getElementById('bottom-count').textContent = carrito.length;
+}
+
+function mostrarCarrito() {
+  const container = document.getElementById('cart-items');
+  container.innerHTML = '';
   if (carrito.length === 0) {
-    alert("Agrega al menos una torta al pedido");
-    return;
+    container.innerHTML = '<p class="text-center text-gray-500 py-12">No hay productos aún</p>';
+  } else {
+    carrito.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = "flex justify-between border-b pb-6 last:border-0";
+      div.innerHTML = `
+        <div>
+          <p class="font-bold">${item.nombre}</p>
+          <p class="text-sm text-gray-600">${item.presentacion} ${item.cantidad ? `(${item.cantidad} tajadas)` : ''} ${item.relleno ? '• '+item.relleno : ''} ${item.cobertura ? '• '+item.cobertura : ''}</p>
+          ${item.toppings.length ? `<p class="text-sm text-gray-500">Toppings: ${item.toppings.join(', ')}</p>` : ''}
+        </div>
+        <button onclick="carrito.splice(${i},1); actualizarContador(); mostrarCarrito()" class="text-red-500">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      `;
+      container.appendChild(div);
+    });
   }
-  document.getElementById("panelFinal").style.display = "block";
-  document.getElementById("panelFinal").scrollIntoView({ behavior: "smooth" });
+  document.getElementById('cart-panel').classList.remove('hidden');
+}
+
+function cerrarCarrito() {
+  document.getElementById('cart-panel').classList.add('hidden');
 }
 
 function enviarPedido() {
-  if (carrito.length === 0) {
-    alert("No hay productos en el pedido");
-    return;
-  }
+  if (carrito.length === 0) return alert("No hay productos");
+  const fecha = document.getElementById('fecha').value;
+  const hora = document.getElementById('hora').value;
+  const cliente = document.getElementById('cliente').value.trim();
+  const dedicatoria = document.getElementById('mensaje').value.trim();
 
-  const fecha = document.getElementById("fecha").value;
-  const hora = document.getElementById("hora").value;
-  const cliente = document.getElementById("cliente").value.trim();
-  const dedicatoria = document.getElementById("mensaje").value.trim();
-
-  let mensaje = "PEDIDO HAPPY CAKES\n\n";
-  if (cliente) mensaje += `Cliente: ${cliente}\n`;
-  if (fecha)   mensaje += `Fecha: ${fecha}\n`;
-  if (hora)    mensaje += `Hora: ${hora}\n\n`;
-
-  mensaje += "DETALLE DEL PEDIDO:\n";
+  let msg = "PEDIDO HAPPY CAKES\n\n";
+  if (cliente) msg += `Cliente: ${cliente}\n`;
+  if (fecha) msg += `Fecha: ${fecha}\n`;
+  if (hora) msg += `Hora: ${hora}\n\n`;
+  msg += "PRODUCTOS:\n";
   carrito.forEach((item, i) => {
-    mensaje += `\n${i+1}. ${item.nombre}\n`;
-    if (item.presentacion) mensaje += `   Presentación: ${item.presentacion}\n`;
-    if (item.cantidad)     mensaje += `   Cantidad tajadas: ${item.cantidad}\n`;
-    if (item.relleno)      mensaje += `   Relleno: ${item.relleno}\n`;
-    if (item.cobertura)    mensaje += `   Cobertura: ${item.cobertura}\n`;
-    if (item.toppings.length) mensaje += `   Toppings: ${item.toppings.join(", ")}\n`;
+    msg += `${i+1}. ${item.nombre}\n`;
+    if (item.presentacion) msg += `   Presentación: ${item.presentacion}\n`;
+    if (item.cantidad) msg += `   Cantidad: ${item.cantidad} tajadas\n`;
+    if (item.relleno) msg += `   Relleno: ${item.relleno}\n`;
+    if (item.cobertura) msg += `   Cobertura: ${item.cobertura}\n`;
+    if (item.toppings.length) msg += `   Toppings: ${item.toppings.join(", ")}\n`;
+    msg += "\n";
   });
+  if (dedicatoria) msg += `Dedicatoria: ${dedicatoria}\n`;
 
-  if (dedicatoria) mensaje += `\nDedicatoria: ${dedicatoria}`;
-
-  const numero = "51958049586";
-  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
+  window.open(`https://wa.me/51958049586?text=${encodeURIComponent(msg)}`, "_blank");
+  carrito = [];
+  actualizarContador();
+  cerrarCarrito();
+  showToast("¡Pedido enviado por WhatsApp!");
 }
 </script>
 </body>
