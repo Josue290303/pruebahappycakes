@@ -17,18 +17,26 @@
       overscroll-behavior: none;
     }
     .heading { font-family: 'Playfair Display', serif; }
-    .opciones { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
-    .opciones.open { max-height: 1600px; }
+    .opciones { 
+      max-height: 0; 
+      overflow: hidden; 
+      transition: max-height 0.5s ease; 
+    }
+    .opciones.open { 
+      max-height: 680px; /* Más pequeño y cómodo en celular */
+      overflow-y: auto; 
+    }
     
     .opcion-btn {
       transition: all 0.25s;
       border: 2px solid #fecaca;
       color: #c40000;
-      padding: 10px 18px;
-      font-size: 14px;
+      padding: 9px 16px;
+      font-size: 13px;
       font-weight: 500;
       border-radius: 9999px;
-      min-width: 95px;
+      min-width: 92px;
+      text-align: center;
     }
     .opcion-btn.activo {
       background: #c40000;
@@ -37,13 +45,16 @@
     }
     
     .tajada-btn {
-      width: 48px;
-      height: 48px;
+      width: 42px; 
+      height: 42px;
       border-radius: 9999px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       border: 2px solid #fecaca;
       color: #c40000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .tajada-btn.activo {
       background: #c40000;
@@ -51,26 +62,26 @@
       border-color: #c40000;
     }
     
-    .tajadas { 
-      max-height: 0; 
-      overflow: hidden; 
-      transition: max-height 0.4s ease; 
-      margin-top: 20px;
-    }
-    .tajadas.open { max-height: 320px; }
+    .tajadas { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; margin-top: 16px; }
+    .tajadas.open { max-height: 260px; }
 
-    input, textarea, select {
-      font-size: 16px !important;
-      line-height: 1.5;
-    }
+    input, textarea, select { font-size: 16px !important; line-height: 1.5; }
+    input:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3); }
 
-    input:focus, textarea:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3);
+    .hero-min-height { min-height: 100dvh; }
+
+    #catalogo-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
-    .hero-min-height {
-      min-height: 100dvh;
+    /* Botón Enviar Pedido más bonito y centrado */
+    .btn-enviar {
+      transition: all 0.2s;
+    }
+    .btn-enviar:active {
+      transform: scale(0.96);
     }
   </style>
 </head>
@@ -78,7 +89,7 @@
 
 <!-- HERO -->
 <div id="inicio" class="hero-min-height bg-gradient-to-br from-rose-600 to-rose-700 flex items-center justify-center px-4">
-  <div class="text-center">
+  <div class="text-center max-w-md mx-auto">
     <img src="imagenes/logohappycake.png" class="w-32 sm:w-40 h-32 sm:h-40 mx-auto mb-8 rounded-full border-8 border-white shadow-2xl">
     <h1 class="heading text-5xl sm:text-7xl text-white font-bold tracking-tighter">Happy Cakes</h1>
     <p class="text-white/90 text-xl sm:text-2xl mt-4">Tortas con amor desde Tarapoto</p>
@@ -90,7 +101,7 @@
 
 <div id="contenido" class="hidden pt-10 sm:pt-12 pb-32">
 
-  <!-- CATÁLOGOS ARRIBA -->
+  <!-- CATÁLOGOS -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16">
     <div class="grid sm:grid-cols-2 gap-6">
       <button onclick="abrirCatalogo('sanvalentin')" class="bg-gradient-to-br from-pink-100 to-rose-100 hover:from-pink-200 hover:to-rose-200 rounded-3xl p-8 sm:p-10 text-left transition-all">
@@ -125,15 +136,34 @@
 
   <!-- Botón fijo abajo -->
   <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-50 py-4 sm:py-5 px-4 sm:px-6">
-    <button onclick="mostrarCarrito()" 
-            class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-lg sm:text-xl py-5 sm:py-6 rounded-3xl flex items-center justify-center gap-3 transition">
+    <button onclick="mostrarCarrito()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-lg sm:text-xl py-5 sm:py-6 rounded-3xl flex items-center justify-center gap-3 transition">
       <i class="fa-solid fa-bag-shopping"></i>
       Enviar Pedido por WhatsApp (<span id="bottom-count" class="font-bold">0</span>)
     </button>
   </div>
 </div>
 
-<!-- Panel de pedido -->
+<!-- MODAL CATÁLOGO -->
+<div id="catalogo-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-[110] p-4">
+  <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[96vh] overflow-hidden flex flex-col shadow-2xl">
+    <div class="p-5 sm:p-6 border-b flex justify-between items-center bg-white">
+      <h2 id="modal-title" class="heading text-2xl sm:text-3xl font-bold text-rose-600"></h2>
+      <button onclick="cerrarCatalogo()" class="text-4xl text-gray-400 hover:text-gray-600 leading-none">×</button>
+    </div>
+    <div class="flex-1 bg-gray-100 overflow-hidden">
+      <iframe id="catalogo-iframe" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="p-5 sm:p-6 border-t bg-gray-50 text-center">
+      <p class="text-gray-700 font-medium mb-4 text-base sm:text-lg">¿Deseas pedir algo de este catálogo?</p>
+      <button onclick="pedirDesdeCatalogo()" class="bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-3xl font-bold text-lg flex items-center gap-3 mx-auto transition">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        Consultar por WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL TU PEDIDO -->
 <div id="cart-panel" class="fixed inset-0 bg-black/70 hidden flex items-center justify-center z-[100] px-4">
   <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden">
     <div class="p-5 sm:p-6 border-b flex justify-between items-center">
@@ -141,16 +171,11 @@
       <button onclick="cerrarCarrito()" class="text-3xl sm:text-4xl text-gray-400 hover:text-gray-600">×</button>
     </div>
     <div id="cart-items" class="p-5 sm:p-6 max-h-[50vh] sm:max-h-[55vh] overflow-y-auto space-y-5 sm:space-y-6"></div>
-    <div class="p-5 sm:p-6 border-t bg-gray-50">
-      <div class="grid grid-cols-2 gap-4 mb-5 sm:mb-6">
-        <input type="date" id="fecha" class="border border-gray-300 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
-        <input type="time" id="hora" class="border border-gray-300 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
-      </div>
-      <input type="text" id="cliente" placeholder="Nombre del cliente" class="w-full border border-gray-300 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 mb-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
-      <input type="text" id="mensaje" placeholder="Dedicatoria / Mensaje en la torta" class="w-full border border-gray-300 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
-    </div>
-    <div class="p-5 sm:p-6">
-      <button onclick="enviarPedido()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-5 sm:py-6 rounded-3xl font-bold text-lg sm:text-xl transition">
+    
+    <div class="p-6 sm:p-8 border-t bg-gray-50">
+      <button onclick="enviarPedido()" 
+              class="btn-enviar w-full bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white py-6 sm:py-7 rounded-3xl font-bold text-xl flex items-center justify-center gap-3 shadow-xl transition-all">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
         Enviar Pedido por WhatsApp
       </button>
     </div>
@@ -158,17 +183,39 @@
 </div>
 
 <script>
-// ==================== INICIO ====================
+// ==================== VARIABLES ====================
+let carrito = [];
+let currentCatalog = '';
+
+// ==================== ENTRAR ====================
 function entrar() {
   document.getElementById("inicio").classList.add("hidden");
   document.getElementById("contenido").classList.remove("hidden");
 }
 
+// ==================== CATÁLOGO ====================
 function abrirCatalogo(tipo) {
-  let pdf = tipo === "sanvalentin" 
+  let basePdf = tipo === "sanvalentin" 
     ? "pdf/Documento A4 Catálogo de San Valentín Moderno Rosa_20260206_192547_0000.pdf"
     : "pdf/Catálogo de bocaditos_20260224_123456_0000.pdf";
-  window.open(pdf, "_blank");
+  let pdfUrl = basePdf + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+  let titulo = tipo === "sanvalentin" ? "Catálogo San Valentín 2026" : "Catálogo Bocaditos Premium";
+
+  document.getElementById('modal-title').textContent = titulo;
+  document.getElementById('catalogo-iframe').src = pdfUrl;
+  document.getElementById('catalogo-modal').classList.remove('hidden');
+  currentCatalog = titulo;
+}
+
+function cerrarCatalogo() {
+  document.getElementById('catalogo-modal').classList.add('hidden');
+  document.getElementById('catalogo-iframe').src = '';
+}
+
+function pedirDesdeCatalogo() {
+  const mensaje = `Hola Happy Cakes! 🌸 Vi el *${currentCatalog}* y me gustaría hacer un pedido. ¿Me puedes ayudar?`;
+  window.open(`https://wa.me/51958049586?text=${encodeURIComponent(mensaje)}`, "_blank");
+  cerrarCatalogo();
 }
 
 // ==================== TORTAS ====================
@@ -181,51 +228,46 @@ const tortas = [
 ];
 
 const lista = document.getElementById("lista");
-let carrito = [];
 
 tortas.forEach(t => {
   lista.innerHTML += `
   <div class="bg-white rounded-3xl overflow-hidden shadow-xl torta-card">
     <img src="${t.img}" class="w-full h-64 object-cover">
-    <div class="p-6 sm:p-8">
-      <h3 class="heading text-3xl sm:text-4xl font-bold text-gray-800">${t.nombre}</h3>
-      <p class="text-gray-600 mt-1 text-sm sm:text-base">Completa S/${t.precioCompleta} • Tajada S/${t.precioTajada}</p>
+    <div class="p-5 sm:p-8">
+      <h3 class="heading text-3xl sm:text-4xl font-bold text-gray-800 text-center">${t.nombre}</h3>
+      <p class="text-gray-600 mt-1 text-sm sm:text-base text-center">Completa S/${t.precioCompleta} • Tajada S/${t.precioTajada}</p>
       
-      <button onclick="toggle(this)" class="mt-6 sm:mt-8 w-full bg-rose-50 hover:bg-rose-100 text-rose-700 py-5 sm:py-6 rounded-3xl font-bold text-lg sm:text-xl flex items-center justify-center gap-3">
-        <span class="text-3xl sm:text-4xl leading-none">+</span> Personalizar
+      <button onclick="toggle(this)" class="mt-6 w-full bg-rose-50 hover:bg-rose-100 text-rose-700 py-4 rounded-3xl font-bold text-lg flex items-center justify-center gap-3">
+        <span class="text-3xl leading-none">+</span> Personalizar
       </button>
       
-      <div class="opciones mt-6 bg-gray-50 rounded-3xl p-6 sm:p-8">
+      <div class="opciones mt-5 bg-gray-50 rounded-3xl p-5 sm:p-6">
         <!-- Presentación -->
-        <div class="mb-8 sm:mb-10">
-          <p class="text-rose-600 font-bold mb-4 text-base sm:text-lg">Presentación</p>
-          <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        <div class="mb-6">
+          <p class="text-rose-600 font-bold mb-3 text-center">Presentación</p>
+          <div class="flex flex-wrap gap-2 justify-center">
             <button onclick="seleccionar(event,this)" class="opcion-btn">Torta Completa</button>
             <button onclick="seleccionar(event,this)" class="opcion-btn">Por Tajadas</button>
           </div>
-          
-          <div class="tajadas mt-6">
-            <div class="grid grid-cols-5 gap-3 sm:gap-4">
+          <div class="tajadas mt-5">
+            <div class="grid grid-cols-5 gap-2 justify-center">
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">1</button>
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">2</button>
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">3</button>
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">4</button>
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">5</button>
             </div>
-            
-            <div class="mt-6 flex items-center gap-3">
-              <input type="number" min="6" placeholder="Cantidad" 
-                     class="w-28 border border-rose-200 rounded-3xl px-4 sm:px-5 py-3 text-center focus:outline-none focus:border-rose-500">
-              <button onclick="agregarTajadaPersonalizada('${t.nombre}', this)" 
-                      class="opcion-btn px-6 sm:px-8 py-3 text-sm font-medium">Agregar</button>
+            <div class="mt-5 flex items-center gap-2 justify-center">
+              <input type="number" min="6" placeholder="Cantidad" class="w-24 border border-rose-200 rounded-3xl px-4 py-3 text-center focus:outline-none focus:border-rose-500">
+              <button onclick="agregarTajadaPersonalizada('${t.nombre}', this)" class="opcion-btn px-5 py-3 text-xs">Agregar</button>
             </div>
           </div>
         </div>
 
         <!-- Relleno -->
-        <div class="mb-8 sm:mb-10">
-          <p class="text-rose-600 font-bold mb-4 text-base sm:text-lg">Relleno</p>
-          <div class="flex flex-wrap gap-3">
+        <div class="mb-6">
+          <p class="text-rose-600 font-bold mb-3 text-center">Relleno</p>
+          <div class="flex flex-wrap gap-2 justify-center">
             <button onclick="seleccionar(event,this)" class="opcion-btn">Fresa</button>
             <button onclick="seleccionar(event,this)" class="opcion-btn">Manjar</button>
             <button onclick="seleccionar(event,this)" class="opcion-btn">Chocolate</button>
@@ -233,9 +275,9 @@ tortas.forEach(t => {
         </div>
 
         <!-- Cobertura -->
-        <div class="mb-8 sm:mb-10">
-          <p class="text-rose-600 font-bold mb-4 text-base sm:text-lg">Cobertura</p>
-          <div class="flex flex-wrap gap-3">
+        <div class="mb-6">
+          <p class="text-rose-600 font-bold mb-3 text-center">Cobertura</p>
+          <div class="flex flex-wrap gap-2 justify-center">
             <button onclick="seleccionar(event,this)" class="opcion-btn">Chantilly</button>
             <button onclick="seleccionar(event,this)" class="opcion-btn">Fondant</button>
             <button onclick="seleccionar(event,this)" class="opcion-btn">Ganache</button>
@@ -243,9 +285,9 @@ tortas.forEach(t => {
         </div>
 
         <!-- Toppings -->
-        <div>
-          <p class="text-rose-600 font-bold mb-4 text-base sm:text-lg">Toppings</p>
-          <div class="flex flex-wrap gap-3">
+        <div class="mb-6">
+          <p class="text-rose-600 font-bold mb-3 text-center">Toppings</p>
+          <div class="flex flex-wrap gap-2 justify-center">
             <button onclick="toggleTopping(event,this)" class="opcion-btn">Fresas</button>
             <button onclick="toggleTopping(event,this)" class="opcion-btn">Oreo</button>
             <button onclick="toggleTopping(event,this)" class="opcion-btn">Chispas</button>
@@ -253,7 +295,7 @@ tortas.forEach(t => {
           </div>
         </div>
 
-        <button onclick="agregarAlCarrito('${t.nombre}', this)" class="mt-10 sm:mt-12 w-full bg-rose-600 hover:bg-rose-700 text-white py-5 sm:py-6 rounded-3xl font-bold text-lg sm:text-xl">
+        <button onclick="agregarAlCarrito('${t.nombre}', this)" class="mt-8 w-full bg-rose-600 hover:bg-rose-700 text-white py-4 rounded-3xl font-bold text-lg">
           Agregar al Pedido
         </button>
       </div>
@@ -274,7 +316,6 @@ function seleccionar(e, btn) {
   const grupo = btn.parentElement.parentElement;
   grupo.querySelectorAll('.opcion-btn').forEach(b => b.classList.remove('activo'));
   btn.classList.add('activo');
-
   const tajadas = grupo.querySelector('.tajadas');
   if (tajadas) tajadas.classList.toggle('open', btn.textContent.includes('Por Tajadas'));
 }
@@ -309,16 +350,12 @@ function agregarAlCarrito(nombre, btn) {
   const grupos = card.querySelectorAll('.opciones > div');
   const pres = grupos[0].querySelector('.opcion-btn.activo');
   if (pres) item.presentacion = pres.textContent;
-
   const taj = grupos[0].querySelector('.tajadas .tajada-btn.activo');
   if (taj) item.cantidad = taj.textContent;
-
   const rel = grupos[1].querySelector('.opcion-btn.activo');
   if (rel) item.relleno = rel.textContent;
-
   const cob = grupos[2].querySelector('.opcion-btn.activo');
   if (cob) item.cobertura = cob.textContent;
-
   grupos[3].querySelectorAll('.opcion-btn.activo').forEach(t => item.toppings.push(t.textContent));
 
   carrito.push(item);
@@ -356,8 +393,7 @@ function mostrarCarrito() {
         </div>
         <button onclick="carrito.splice(${i},1); actualizarContador(); mostrarCarrito()" class="text-red-500">
           <i class="fa-solid fa-trash"></i>
-        </button>
-      `;
+        </button>`;
       container.appendChild(div);
     });
   }
@@ -370,6 +406,7 @@ function cerrarCarrito() {
 
 function enviarPedido() {
   if (carrito.length === 0) return alert("No hay productos");
+  
   const fecha = document.getElementById('fecha').value;
   const hora = document.getElementById('hora').value;
   const cliente = document.getElementById('cliente').value.trim();
@@ -391,7 +428,9 @@ function enviarPedido() {
   });
   if (dedicatoria) msg += `Dedicatoria: ${dedicatoria}\n`;
 
+  // ABRIR WHATSAPP
   window.open(`https://wa.me/51958049586?text=${encodeURIComponent(msg)}`, "_blank");
+  
   carrito = [];
   actualizarContador();
   cerrarCarrito();
