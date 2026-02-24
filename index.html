@@ -9,86 +9,31 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
-    
-    body { 
-      font-family: 'Inter', system-ui, sans-serif; 
-      background: #fffaf5; 
-      touch-action: manipulation;
-      overscroll-behavior: none;
-    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #fffaf5; touch-action: manipulation; }
     .heading { font-family: 'Playfair Display', serif; }
-    .opciones { 
-      max-height: 0; 
-      overflow: hidden; 
-      transition: max-height 0.5s ease; 
-    }
-    .opciones.open { 
-      max-height: 680px; /* Más pequeño y cómodo en celular */
-      overflow-y: auto; 
-    }
-    
+    .opciones { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+    .opciones.open { max-height: 680px; overflow-y: auto; }
     .opcion-btn {
-      transition: all 0.25s;
-      border: 2px solid #fecaca;
-      color: #c40000;
-      padding: 9px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 9999px;
-      min-width: 92px;
-      text-align: center;
+      padding: 9px 16px; font-size: 13px; border: 2px solid #fecaca; color: #c40000;
+      border-radius: 9999px; min-width: 92px;
     }
-    .opcion-btn.activo {
-      background: #c40000;
-      color: white;
-      border-color: #c40000;
-    }
-    
+    .opcion-btn.activo { background: #c40000; color: white; border-color: #c40000; }
     .tajada-btn {
-      width: 42px; 
-      height: 42px;
-      border-radius: 9999px;
-      font-size: 15px;
-      font-weight: 600;
-      border: 2px solid #fecaca;
-      color: #c40000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 42px; height: 42px; font-size: 15px; border: 2px solid #fecaca;
+      color: #c40000; border-radius: 9999px;
     }
-    .tajada-btn.activo {
-      background: #c40000;
-      color: white;
-      border-color: #c40000;
-    }
-    
+    .tajada-btn.activo { background: #c40000; color: white; border-color: #c40000; }
     .tajadas { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; margin-top: 16px; }
     .tajadas.open { max-height: 260px; }
-
-    input, textarea, select { font-size: 16px !important; line-height: 1.5; }
-    input:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3); }
-
-    .hero-min-height { min-height: 100dvh; }
-
-    #catalogo-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Botón Enviar Pedido más bonito y centrado */
-    .btn-enviar {
-      transition: all 0.2s;
-    }
-    .btn-enviar:active {
-      transform: scale(0.96);
-    }
+    input, textarea, select { font-size: 16px !important; }
+    .btn-enviar { transition: all 0.2s; }
+    .btn-enviar:active { transform: scale(0.96); }
   </style>
 </head>
 <body>
 
 <!-- HERO -->
-<div id="inicio" class="hero-min-height bg-gradient-to-br from-rose-600 to-rose-700 flex items-center justify-center px-4">
+<div id="inicio" class="min-h-[100dvh] bg-gradient-to-br from-rose-600 to-rose-700 flex items-center justify-center px-4">
   <div class="text-center max-w-md mx-auto">
     <img src="imagenes/logohappycake.png" class="w-32 sm:w-40 h-32 sm:h-40 mx-auto mb-8 rounded-full border-8 border-white shadow-2xl">
     <h1 class="heading text-5xl sm:text-7xl text-white font-bold tracking-tighter">Happy Cakes</h1>
@@ -134,7 +79,7 @@
     </div>
   </footer>
 
-  <!-- Botón fijo abajo -->
+  <!-- Botón fijo -->
   <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl z-50 py-4 sm:py-5 px-4 sm:px-6">
     <button onclick="mostrarCarrito()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-lg sm:text-xl py-5 sm:py-6 rounded-3xl flex items-center justify-center gap-3 transition">
       <i class="fa-solid fa-bag-shopping"></i>
@@ -146,16 +91,16 @@
 <!-- MODAL CATÁLOGO -->
 <div id="catalogo-modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-[110] p-4">
   <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[96vh] overflow-hidden flex flex-col shadow-2xl">
-    <div class="p-5 sm:p-6 border-b flex justify-between items-center bg-white">
+    <div class="p-5 sm:p-6 border-b flex justify-between items-center">
       <h2 id="modal-title" class="heading text-2xl sm:text-3xl font-bold text-rose-600"></h2>
-      <button onclick="cerrarCatalogo()" class="text-4xl text-gray-400 hover:text-gray-600 leading-none">×</button>
+      <button onclick="cerrarCatalogo()" class="text-4xl text-gray-400 hover:text-gray-600">×</button>
     </div>
     <div class="flex-1 bg-gray-100 overflow-hidden">
       <iframe id="catalogo-iframe" frameborder="0" allowfullscreen></iframe>
     </div>
     <div class="p-5 sm:p-6 border-t bg-gray-50 text-center">
-      <p class="text-gray-700 font-medium mb-4 text-base sm:text-lg">¿Deseas pedir algo de este catálogo?</p>
-      <button onclick="pedirDesdeCatalogo()" class="bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-3xl font-bold text-lg flex items-center gap-3 mx-auto transition">
+      <p class="text-gray-700 font-medium mb-4">¿Deseas pedir algo de este catálogo?</p>
+      <button onclick="pedirDesdeCatalogo()" class="bg-green-500 hover:bg-green-600 text-white px-10 py-5 rounded-3xl font-bold text-lg flex items-center gap-3 mx-auto">
         <i class="fa-brands fa-whatsapp text-2xl"></i>
         Consultar por WhatsApp
       </button>
@@ -168,13 +113,21 @@
   <div class="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden">
     <div class="p-5 sm:p-6 border-b flex justify-between items-center">
       <h2 class="heading text-2xl sm:text-3xl font-bold text-rose-600">Tu Pedido</h2>
-      <button onclick="cerrarCarrito()" class="text-3xl sm:text-4xl text-gray-400 hover:text-gray-600">×</button>
+      <button onclick="cerrarCarrito()" class="text-4xl text-gray-400 hover:text-gray-600">×</button>
     </div>
-    <div id="cart-items" class="p-5 sm:p-6 max-h-[50vh] sm:max-h-[55vh] overflow-y-auto space-y-5 sm:space-y-6"></div>
+    <div id="cart-items" class="p-5 sm:p-6 max-h-[45vh] overflow-y-auto space-y-5"></div>
     
-    <div class="p-6 sm:p-8 border-t bg-gray-50">
-      <button onclick="enviarPedido()" 
-              class="btn-enviar w-full bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white py-6 sm:py-7 rounded-3xl font-bold text-xl flex items-center justify-center gap-3 shadow-xl transition-all">
+    <div class="p-5 sm:p-6 border-t bg-gray-50 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <input type="date" id="fecha" class="border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500">
+        <input type="time" id="hora" class="border border-gray-300 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rose-500">
+      </div>
+      <input type="text" id="cliente" placeholder="Nombre del cliente" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+      <input type="text" id="mensaje" placeholder="Dedicatoria / Mensaje en la torta" class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-rose-500">
+    </div>
+    
+    <div class="p-6 border-t bg-white">
+      <button onclick="enviarPedido()" class="btn-enviar w-full bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white py-7 rounded-3xl font-bold text-xl flex items-center justify-center gap-3 shadow-xl">
         <i class="fa-brands fa-whatsapp text-3xl"></i>
         Enviar Pedido por WhatsApp
       </button>
@@ -187,20 +140,18 @@
 let carrito = [];
 let currentCatalog = '';
 
-// ==================== ENTRAR ====================
+// ==================== FUNCIONES ====================
 function entrar() {
   document.getElementById("inicio").classList.add("hidden");
   document.getElementById("contenido").classList.remove("hidden");
 }
 
-// ==================== CATÁLOGO ====================
 function abrirCatalogo(tipo) {
   let basePdf = tipo === "sanvalentin" 
     ? "pdf/Documento A4 Catálogo de San Valentín Moderno Rosa_20260206_192547_0000.pdf"
     : "pdf/Catálogo de bocaditos_20260224_123456_0000.pdf";
   let pdfUrl = basePdf + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
   let titulo = tipo === "sanvalentin" ? "Catálogo San Valentín 2026" : "Catálogo Bocaditos Premium";
-
   document.getElementById('modal-title').textContent = titulo;
   document.getElementById('catalogo-iframe').src = pdfUrl;
   document.getElementById('catalogo-modal').classList.remove('hidden');
@@ -218,7 +169,7 @@ function pedirDesdeCatalogo() {
   cerrarCatalogo();
 }
 
-// ==================== TORTAS ====================
+// ==================== TORTAS COMPLETAS ====================
 const tortas = [
   {nombre:"Torta Chocolate", precioCompleta:60, precioTajada:8, img:"imagenes/chocolate.jpg"},
   {nombre:"Torta Tres Leches", precioCompleta:55, precioTajada:7, img:"imagenes/tresleches.jpg"},
@@ -241,7 +192,7 @@ tortas.forEach(t => {
         <span class="text-3xl leading-none">+</span> Personalizar
       </button>
       
-      <div class="opciones mt-5 bg-gray-50 rounded-3xl p-5 sm:p-6">
+      <div class="opciones mt-5 bg-gray-50 rounded-3xl p-5">
         <!-- Presentación -->
         <div class="mb-6">
           <p class="text-rose-600 font-bold mb-3 text-center">Presentación</p>
@@ -257,13 +208,12 @@ tortas.forEach(t => {
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">4</button>
               <button onclick="seleccionarTajada(event,this)" class="tajada-btn">5</button>
             </div>
-            <div class="mt-5 flex items-center gap-2 justify-center">
-              <input type="number" min="6" placeholder="Cantidad" class="w-24 border border-rose-200 rounded-3xl px-4 py-3 text-center focus:outline-none focus:border-rose-500">
+            <div class="mt-5 flex gap-2 justify-center">
+              <input type="number" min="6" placeholder="Cantidad" class="w-24 border border-rose-200 rounded-3xl px-4 py-3 text-center">
               <button onclick="agregarTajadaPersonalizada('${t.nombre}', this)" class="opcion-btn px-5 py-3 text-xs">Agregar</button>
             </div>
           </div>
         </div>
-
         <!-- Relleno -->
         <div class="mb-6">
           <p class="text-rose-600 font-bold mb-3 text-center">Relleno</p>
@@ -273,7 +223,6 @@ tortas.forEach(t => {
             <button onclick="seleccionar(event,this)" class="opcion-btn">Chocolate</button>
           </div>
         </div>
-
         <!-- Cobertura -->
         <div class="mb-6">
           <p class="text-rose-600 font-bold mb-3 text-center">Cobertura</p>
@@ -283,7 +232,6 @@ tortas.forEach(t => {
             <button onclick="seleccionar(event,this)" class="opcion-btn">Ganache</button>
           </div>
         </div>
-
         <!-- Toppings -->
         <div class="mb-6">
           <p class="text-rose-600 font-bold mb-3 text-center">Toppings</p>
@@ -294,7 +242,6 @@ tortas.forEach(t => {
             <button onclick="toggleTopping(event,this)" class="opcion-btn">Nueces</button>
           </div>
         </div>
-
         <button onclick="agregarAlCarrito('${t.nombre}', this)" class="mt-8 w-full bg-rose-600 hover:bg-rose-700 text-white py-4 rounded-3xl font-bold text-lg">
           Agregar al Pedido
         </button>
@@ -406,9 +353,9 @@ function cerrarCarrito() {
 
 function enviarPedido() {
   if (carrito.length === 0) return alert("No hay productos");
-  
-  const fecha = document.getElementById('fecha').value;
-  const hora = document.getElementById('hora').value;
+
+  const fecha = document.getElementById('fecha').value || '';
+  const hora = document.getElementById('hora').value || '';
   const cliente = document.getElementById('cliente').value.trim();
   const dedicatoria = document.getElementById('mensaje').value.trim();
 
@@ -428,9 +375,8 @@ function enviarPedido() {
   });
   if (dedicatoria) msg += `Dedicatoria: ${dedicatoria}\n`;
 
-  // ABRIR WHATSAPP
   window.open(`https://wa.me/51958049586?text=${encodeURIComponent(msg)}`, "_blank");
-  
+
   carrito = [];
   actualizarContador();
   cerrarCarrito();
