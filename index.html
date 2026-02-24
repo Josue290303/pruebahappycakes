@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Cakes</title>
+<link rel="icon" href="imagenes/logohappycake.png">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+body {
+  background: #FDF8F6;
+  color: #2d2d2d;
+  line-height: 1.5;
+}
+
+/* INICIO */
+.inicio {
+  position: fixed;
+  inset: 0;
+  background: #C40000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  color: white;
+  text-align: center;
+  z-index: 999;
+}
+.logo-inicio {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  padding: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+.btn-entrar {
+  background: white;
+  color: #C40000;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 1.25em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.btn-entrar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* CONTENIDO */
+#contenido {
+  display: none;
+  padding: 24px 16px;
+  max-width: 1200px;
+  margin: auto;
+}
+h2 {
+  color: #C40000;
+  font-weight: 600;
+  margin: 40px 0 24px;
+  text-align: center;
+  font-size: 2em;
+}
+
+/* CAMPAÑAS */
+.campanas {
+  text-align: center;
+  padding: 40px 0;
+}
+.botones-campana {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.btn-rojo {
+  background: #C40000;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-rojo:hover {
+  background: #a50000;
+  transform: translateY(-2px);
+}
+
+/* MODAL - solo vista previa (opcional) */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.modal-content {
+  background: white;
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+.modal-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cerrar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: white;
+  color: #C40000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 32px;
+  line-height: 44px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: all 0.2s;
+}
+.cerrar:hover {
+  background: #ffeeee;
+  transform: scale(1.1);
+}
+
+/* GRID TORTAS */
+#lista {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+@media (min-width: 768px)  { #lista { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { #lista { grid-template-columns: repeat(3, 1fr); } }
+
+.torta {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.torta:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+.torta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #FFF5F5;
+  border-bottom: 1px solid #ffebeb;
+}
+.torta-info {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.torta img {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.torta h3 {
+  font-size: 1.4em;
+  margin-bottom: 6px;
+  color: #C40000;
+}
+.torta p {
+  color: #555;
+  font-size: 0.95em;
+}
+
+/* BOTÓN TOGGLE */
+.btn-toggle {
+  background: #C40000;
+  color: white;
+  border: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 12px rgba(196,0,0,0.25);
+}
+.btn-toggle:hover {
+  background: #a50000;
+  transform: scale(1.1);
+}
+
+/* OPCIONES */
+.opciones {
+  display: none;
+  padding: 24px;
+  background: #fafafa;
+}
+.grupo {
+  margin: 28px 0;
+}
+.grupo p {
+  font-weight: 600;
+  color: #C40000;
+  margin-bottom: 14px;
+  font-size: 1.15em;
+}
+.botones-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+.opcion-btn {
+  background: white;
+  border: 2px solid #ffcccc;
+  color: #C40000;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 110px;
+  text-align: center;
+}
+.opcion-btn:hover {
+  border-color: #ff9999;
+  background: #fff5f5;
+  transform: translateY(-1px);
+}
+.opcion-btn.activo {
+  background: #C40000;
+  color: white;
+  border-color: #C40000;
+}
+
+/* TAJADAS */
+.tajadas {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  background: #fffafafa;
+  border-radius: 16px;
+  border: 1px solid #ffebeb;
+}
+.tajadas .botones-container {
+  gap: 10px;
+}
+.tajadas .opcion-btn {
+  min-width: 60px;
+  padding: 10px 14px;
+  font-size: 0.95em;
+}
+
+/* Botón AGREGAR */
+.btn-agregar {
+  background: #C40000;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.05em;
+  cursor: pointer;
+  margin-top: 28px;
+  width: 100%;
+  transition: all 0.3s;
+}
+.btn-agregar:hover {
+  background: #a50000;
+  transform: translateY(-2px);
+}
+
+/* PANEL FINAL */
+.panel-final {
+  display: none;
+  background: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 700px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 600px) {
+  .form-grid { grid-template-columns: 1fr 1fr; }
+}
+.form-grid input {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 1em;
+}
+.btn-enviar {
+  grid-column: 1 / -1;
+  background: #C40000;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+.finalizar-container {
+  text-align: center;
+  margin: 48px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="inicio" id="inicio">
+  <img src="imagenes/logohappycake.png" class="logo-inicio">
+  <h1>Happy Cakes</h1>
+  <button class="btn-entrar" onclick="entrar()">Clic para Ingresar</button>
+</div>
+
+<div id="contenido">
+  <section class="campanas">
+    <h2>Campañas Especiales</h2>
+    <div class="botones-campana">
+      <button class="btn-rojo" onclick="abrirCatalogo('sanvalentin')">Ver Catálogo San Valentín</button>
+      <button class="btn-rojo" onclick="abrirCatalogo('bocaditos')">Ver Catálogo de Bocaditos</button>
+    </div>
+  </section>
+
+  <h2>Nuestras Tortas</h2>
+  <div id="lista"></div>
+
+  <div class="finalizar-container">
+    <button class="btn-rojo" onclick="mostrarPanelFinal()">Finalizar Pedido</button>
+  </div>
+
+  <div class="panel-final" id="panelFinal">
+    <h3>Finalizar Pedido</h3>
+    <div class="form-grid">
+      <input type="date" id="fecha">
+      <input type="time" id="hora">
+      <input type="text" id="cliente" placeholder="Nombre del cliente">
+      <input type="text" id="mensaje" placeholder="Dedicatoria (opcional)">
+    </div>
+    <button class="btn-enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODALES - solo vista previa (opcional) -->
+<div class="modal" id="modalSanValentin">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModal('modalSanValentin')">×</span>
+    <img src="imagenes/catalogo-san-valentin.jpg" alt="Catálogo San Valentín">
+  </div>
+</div>
+
+<div class="modal" id="modalBocaditos">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModal('modalBocaditos')">×</span>
+    <img src="imagenes/catalogo-bocaditos.jpg" alt="Catálogo Bocaditos">
+  </div>
+</div>
+
+<script>
+// Funciones básicas
+function entrar() {
+  document.getElementById("inicio").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+}
+
+function cerrarModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+// Abrir PDF directamente (cambia las rutas por las tuyas reales)
+function abrirCatalogo(tipo) {
+  let pdfUrl = "";
+  let modalId = "";
+
+  if (tipo === "sanvalentin") {
+    pdfUrl = "pdf/Catálogo de bocaditos_20260224_123456_0000.pdf";   // ← CAMBIA ESTA RUTA
+    modalId = "modalSanValentin";
+  } else if (tipo === "bocaditos") {
+    pdfUrl = "pdf/Documento A4 Catálogo de San Valentín Moderno Rosa_20260206_192547_0000.pdf";      // ← CAMBIA ESTA RUTA
+    modalId = "modalBocaditos";
+  }
+
+  // Opción 1: Abrir PDF directamente (recomendado según tu pedido)
+  window.open(pdfUrl, "_blank");
+
+  // Opción 2: Mostrar vista previa primero (comenta la línea de arriba si no la quieres)
+  // document.getElementById(modalId).style.display = "flex";
+}
+
+// Resto del script (tortas, carrito, etc.)
+const tortas = [
+  {nombre:"Torta Chocolate",     precioCompleta:60, precioTajada:8,  img:"imagenes/chocolate.jpg"},
+  {nombre:"Torta Tres Leches",   precioCompleta:55, precioTajada:7,  img:"imagenes/tresleches.jpg"},
+  {nombre:"Torta Red Velvet",    precioCompleta:65, precioTajada:9,  img:"imagenes/redvelvet.jpg"},
+  {nombre:"Torta Oreo",          precioCompleta:70, precioTajada:10, img:"imagenes/oreo.jpg"},
+  {nombre:"Torta Fresa",         precioCompleta:58, precioTajada:8,  img:"imagenes/fresa.jpg"}
+];
+
+const lista = document.getElementById("lista");
+let carrito = [];
+
+tortas.forEach(t => {
+  lista.innerHTML += `
+<div class="torta">
+  <div class="torta-header">
+    <div class="torta-info">
+      <img src="${t.img}" alt="${t.nombre}">
+      <div>
+        <h3>${t.nombre}</h3>
+        <p>Torta completa: S/ ${t.precioCompleta}</p>
+        <p>Por tajada: S/ ${t.precioTajada}</p>
+      </div>
+    </div>
+    <button class="btn-toggle" onclick="toggle(this)">+</button>
+  </div>
+  <div class="opciones">
+    <div class="grupo">
+      <p>Presentación</p>
+      <div class="botones-container">
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Torta Completa</button>
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Por Tajadas</button>
+      </div>
+      <div class="tajadas" style="display:none;">
+        <div class="botones-container">
+          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">1</button>
+          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">2</button>
+          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">3</button>
+          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">4</button>
+          <button class="opcion-btn" onclick="seleccionarTajada(event,this)">5</button>
+          <button class="opcion-btn" onclick="masTajadas(event,this)">Más tajadas</button>
+        </div>
+      </div>
+    </div>
+    <!-- Relleno, Cobertura y Toppings se mantienen igual -->
+    <div class="grupo">
+      <p>Relleno</p>
+      <div class="botones-container">
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Fresa</button>
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Manjar</button>
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Chocolate</button>
+      </div>
+    </div>
+    <div class="grupo">
+      <p>Cobertura</p>
+      <div class="botones-container">
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Chantilly</button>
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Fondant</button>
+        <button class="opcion-btn" onclick="seleccionar(event,this)">Ganache</button>
+      </div>
+    </div>
+    <div class="grupo">
+      <p>Toppings</p>
+      <div class="botones-container">
+        <button class="opcion-btn" onclick="toggleTopping(event,this)">Fresas</button>
+        <button class="opcion-btn" onclick="toggleTopping(event,this)">Oreo</button>
+        <button class="opcion-btn" onclick="toggleTopping(event,this)">Chispas</button>
+        <button class="opcion-btn" onclick="toggleTopping(event,this)">Nueces</button>
+      </div>
+    </div>
+    <button class="btn-agregar" onclick="agregarAlCarrito('${t.nombre}', this)">Agregar al Pedido</button>
+  </div>
+</div>`;
+});
+
+function toggle(btn) {
+  const opciones = btn.closest(".torta").querySelector(".opciones");
+  const visible = opciones.style.display === "block";
+  opciones.style.display = visible ? "none" : "block";
+  btn.textContent = visible ? "+" : "−";
+}
+
+function seleccionar(e, btn) {
+  e.stopPropagation();
+  const grupo = btn.closest(".grupo");
+  grupo.querySelectorAll(".opcion-btn").forEach(b => {
+    if (!b.closest(".tajadas")) b.classList.remove("activo");
+  });
+  btn.classList.add("activo");
+
+  const tajadas = grupo.querySelector(".tajadas");
+  if (tajadas) {
+    tajadas.style.display = btn.textContent.includes("Por Tajadas") ? "block" : "none";
+    if (tajadas.style.display !== "block") {
+      tajadas.querySelectorAll(".opcion-btn").forEach(b => b.classList.remove("activo"));
+    }
+  }
+}
+
+function seleccionarTajada(e, btn) {
+  e.stopPropagation();
+  const container = btn.closest(".botones-container");
+  container.querySelectorAll(".opcion-btn").forEach(b => b.classList.remove("activo"));
+  btn.classList.add("activo");
+}
+
+function masTajadas(e, btn) {
+  e.stopPropagation();
+  alert("Para más de 5 tajadas, por favor escribe la cantidad deseada en la dedicatoria o contáctanos directamente.");
+}
+
+function toggleTopping(e, btn) {
+  e.stopPropagation();
+  btn.classList.toggle("activo");
+}
+
+function agregarAlCarrito(nombre, btn) {
+  const tortaDiv = btn.closest(".torta");
+  let presentacion = "", cantidad = "", relleno = "", cobertura = "", toppings = [];
+
+  const grupos = tortaDiv.querySelectorAll(".grupo");
+  const pres = grupos[0].querySelector(".opcion-btn.activo");
+  if (pres) presentacion = pres.innerText;
+
+  const tajadaBtn = grupos[0].querySelector(".tajadas .opcion-btn.activo");
+  if (tajadaBtn) cantidad = tajadaBtn.innerText;
+
+  const rel = grupos[1].querySelector(".opcion-btn.activo");
+  if (rel) relleno = rel.innerText;
+
+  const cob = grupos[2].querySelector(".opcion-btn.activo");
+  if (cob) cobertura = cob.innerText;
+
+  grupos[3].querySelectorAll(".opcion-btn.activo").forEach(t => {
+    toppings.push(t.innerText);
+  });
+
+  carrito.push({ nombre, presentacion, cantidad, relleno, cobertura, toppings });
+  alert(nombre + " agregada al pedido");
+}
+
+function mostrarPanelFinal() {
+  if (carrito.length === 0) {
+    alert("Agrega al menos una torta al pedido");
+    return;
+  }
+  document.getElementById("panelFinal").style.display = "block";
+  document.getElementById("panelFinal").scrollIntoView({ behavior: "smooth" });
+}
+
+function enviarPedido() {
+  if (carrito.length === 0) {
+    alert("No hay productos en el pedido");
+    return;
+  }
+
+  const fecha = document.getElementById("fecha").value;
+  const hora = document.getElementById("hora").value;
+  const cliente = document.getElementById("cliente").value.trim();
+  const dedicatoria = document.getElementById("mensaje").value.trim();
+
+  let mensaje = "PEDIDO HAPPY CAKES\n\n";
+  if (cliente) mensaje += `Cliente: ${cliente}\n`;
+  if (fecha)   mensaje += `Fecha: ${fecha}\n`;
+  if (hora)    mensaje += `Hora: ${hora}\n\n`;
+
+  mensaje += "DETALLE DEL PEDIDO:\n";
+  carrito.forEach((item, i) => {
+    mensaje += `\n${i+1}. ${item.nombre}\n`;
+    if (item.presentacion) mensaje += `   Presentación: ${item.presentacion}\n`;
+    if (item.cantidad)     mensaje += `   Cantidad tajadas: ${item.cantidad}\n`;
+    if (item.relleno)      mensaje += `   Relleno: ${item.relleno}\n`;
+    if (item.cobertura)    mensaje += `   Cobertura: ${item.cobertura}\n`;
+    if (item.toppings.length) mensaje += `   Toppings: ${item.toppings.join(", ")}\n`;
+  });
+
+  if (dedicatoria) mensaje += `\nDedicatoria: ${dedicatoria}`;
+
+  const numero = "51958049586";
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
+}
+</script>
+</body>
+</html>
